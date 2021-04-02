@@ -54,13 +54,18 @@ client.connect(err => {
   })
 
   app.get('/getOrders',(req,res)=>{
-    console.log(req.query.email)
     orders.find({email : req.query.email})
     .toArray((err,document)=>{
       res.send(document)
     })
   })
 
+  app.delete('/deleteOrder/:id',(req,res)=>{
+    orders.deleteOne({_id : ObjectId(req.params.id)})
+    .then(result => {
+      res.send(result.deletedCount > 0)
+    })
+  })
 
 });
 
